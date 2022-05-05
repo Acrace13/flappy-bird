@@ -2,7 +2,10 @@ kaboom()
 
 loadBean()
 
+
 let score =0
+
+const SPEED = 250
 
 const player = add ([
   sprite("bean"),
@@ -13,7 +16,7 @@ const player = add ([
 
 
 
-add ([
+add ([ //starting point
   rect(200,50),
   pos(10,400),
   solid(),
@@ -145,6 +148,22 @@ add ([
   area(),
 ])
 
+add([
+  "coin", // coin 5
+  rect(100,150),
+  pos(2400,150),
+  area(),
+  color(200,200,0)
+])
+
+add([ //finish line
+  "finish",
+  rect (100,1000),
+  pos(2900,0),
+  color(100,0,0),
+  area()
+])
+
 let scoreLable = add([
   text ("Score: 0"),
   pos(10,10)
@@ -161,10 +180,14 @@ scoreLable.text = "score: " +score
 player.onCollide("tube", () => {
   addKaboom(player.pos)
   destroy(player)
+   wait(1, () => {
+     go("lose")
+   })
 })
-
-const SPEED = 250
-
+  
+  onClick("playButton", () => {
+  go("game")
+})
 
 onKeyDown("right", () => {
   player.move(SPEED,0)
@@ -176,4 +199,41 @@ onKeyPress("space", () => {
 
 onUpdate ( () => {
   camPos(player.pos.x,350)
+})
+player.onCollide("finish", () => {
+  go("win")
+})
+
+ scene("win",() => {
+    add([
+      text("You Win"),
+      color(0,255,0),
+      pos(width()/2, height()*0.2),
+      origin("center"),
+    ])
+   
+   add([
+    text("Play Again"),
+    "playButton",
+    pos(width() / 2, height() / 2 + 75),
+    origin("center"),
+    area(),
+  ])
+ })
+
+scene("lose",() => {
+    add([
+      text("You Lose"),
+      color(255,0,0),
+      pos(width()/2, height()*0.2),
+      origin("center")
+    ])
+  
+  add([
+    text("Retry"),
+    "playButton",
+    pos(width() / 2, height() / 2 + 75),
+    origin("center"),
+    area(),
+  ]);
 })
