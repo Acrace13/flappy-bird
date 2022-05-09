@@ -2,6 +2,9 @@ kaboom()
 
 loadBean()
 
+scene("game", () => {
+  
+
 
 let score =0
 
@@ -13,8 +16,6 @@ const player = add ([
   body(),
   area(),
 ])
-
-
 
 add ([ //starting point
   rect(200,50),
@@ -121,7 +122,6 @@ add ([
   area(),
 ])
 
-
 add([
   "coin", // coin 4
   rect(100,150),
@@ -185,21 +185,19 @@ player.onCollide("tube", () => {
    })
 })
   
-  onClick("playButton", () => {
-  go("game")
-})
-
 onKeyDown("right", () => {
   player.move(SPEED,0)
+ 
 })
 
 onKeyPress("space", () => {
   player.jump()
 })
-
-onUpdate ( () => {
+  
+ onUpdate ( () => {
   camPos(player.pos.x,350)
 })
+
 player.onCollide("finish", () => {
   go("win")
 })
@@ -218,7 +216,12 @@ player.onCollide("finish", () => {
     pos(width() / 2, height() / 2 + 75),
     origin("center"),
     area(),
-  ])
+  ]);
+   
+   
+  onClick("playButton", () => {
+    go("game")
+  })
  })
 
 scene("lose",() => {
@@ -236,4 +239,11 @@ scene("lose",() => {
     origin("center"),
     area(),
   ]);
+  
+  onClick("playButton", () => {
+    go("game")
+  })
 })
+  })
+
+go("game")
