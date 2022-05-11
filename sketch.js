@@ -1,20 +1,23 @@
 kaboom()
 
 loadBean()
+loadSprite("bird", "Flappy-Bird-PNG-Image.png")
+
 
 scene("game", () => {
   
-
-
 let score =0
 
 const SPEED = 250
 
 const player = add ([
-  sprite("bean"),
-  pos(50,300),
+  sprite("bird", {
+    width:100,
+    height:100
+  }),
+  pos(50,50),
   body(),
-  area(),
+  area({ scale: 0.65})
 ])
 
 add ([ //starting point
@@ -187,7 +190,6 @@ player.onCollide("tube", () => {
   
 onKeyDown("right", () => {
   player.move(SPEED,0)
- 
 })
 
 onKeyPress("space", () => {
@@ -202,7 +204,9 @@ player.onCollide("finish", () => {
   go("win")
 })
 
- scene("win",() => {
+
+ 
+  scene("win",() => {
     add([
       text("You Win"),
       color(0,255,0),
@@ -246,4 +250,25 @@ scene("lose",() => {
 })
   })
 
-go("game")
+scene ("menu", () => {
+  add([
+    text("Flappy Bird"),
+    color(0,255,0),
+    pos(width() / 2, height() / 2 - 50),
+    origin("center"),
+  ])
+  
+  add([
+    text("Play here!"),
+    "playButton",
+    pos(width() / 2, height() / 2 + 75),
+    origin("center"),
+    area()
+  ])
+  
+  onClick("playButton", () => {
+    go("game")
+  })
+})
+
+go("menu")
