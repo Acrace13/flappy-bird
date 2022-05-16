@@ -17,7 +17,7 @@ const player = add ([
   }),
   pos(50,50),
   body(),
-  area({ scale: 0.65})
+  area({scale: 0.65})
 ])
 
 add ([ //starting point
@@ -169,7 +169,7 @@ add([ //finish line
 
 let scoreLable = add([
   text ("Score: 0"),
-  pos(10,10)
+  pos(-200,100)
 ])
 
 
@@ -191,6 +191,10 @@ player.onCollide("tube", () => {
 onKeyDown("right", () => {
   player.move(SPEED,0)
 })
+  
+  onKeyDown("right", () => {
+    scoreLable.move(SPEED,0)
+  })
 
 onKeyPress("space", () => {
   player.jump()
@@ -266,9 +270,50 @@ scene ("menu", () => {
     area()
   ])
   
+  add([
+    text("controls"),
+    "controls",
+    pos(width() / 2, height() / 2 + 170),
+    origin("center"),
+    area()
+  ])
+  
+  onClick("playButton", () => {
+    go("game")
+  })
+  
+  onClick("controls", () => {
+    go("controls")
+  })
+})
+
+scene ("controls", () => {
+  add([
+    text("Press Right arrow to move"),
+    pos(width() / 2, height() / 2 - 50),
+    origin("center"),
+  ])
+  
+  add([
+    text("Press space to jump"),
+    pos(width() / 2, height() / 2 + 75),
+    origin("center"),
+    area()
+  ])
+  
+  add([
+    text("Play Here!"),
+    "playButton",
+    color(0,255,0),
+     pos(width() / 2, height() / 2 + 170),
+    origin("center"),
+    area()
+  ])
+  
   onClick("playButton", () => {
     go("game")
   })
 })
+
 
 go("menu")
